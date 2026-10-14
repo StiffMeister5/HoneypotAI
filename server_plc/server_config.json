@@ -1,0 +1,57 @@
+{
+  "network": {
+    "host": "127.0.0.1",
+    "port": 5020,
+    "device_id": 0,
+    "log_level": "INFO"
+  },
+  "device_identity": {
+    "vendor_name": "WAGO",
+    "product_code": "750-8202",
+    "product_name": "WAGO PFC200",
+    "model_name": "PFC200",
+    "vendor_url": "https://www.wago.com",
+    "firmware_revision": "FW12",
+    "description": "WAGO PFC200 (750-8202) industrial PLC. Supports standard Modbus TCP (FC 1-24, 43) plus WAGO proprietary extensions."
+  },
+  "modbus_memory": {
+    "num_holding_registers": 40,
+    "num_input_registers": 40,
+    "num_coils": 40,
+    "num_discrete_inputs": 40,
+    "initial_holding_registers": {
+      "0": 93
+    },
+    "initial_input_registers": {
+      "1": 32700
+    },
+    "initial_coils": {},
+    "initial_discrete_inputs": {}
+  },
+  "physical_simulation": {
+    "enabled": true,
+    "sp_register_address": 0,
+    "pv_register_address": 1,
+    "dt": 0.4,
+    "tau": 8.0,
+    "sp_crit": 70,
+    "v_nominal": 32700.0,
+    "k_deficit": 20.8,
+    "osc_freq": 0.08,
+    "osc_amp_init": 30.0,
+    "osc_amp_growth": 5.0,
+    "osc_amp_scale": 97.0,
+    "sensor_noise_std": 1.5,
+    "instability_noise_std": 6.0,
+    "clamp_min": 0.0,
+    "clamp_max": 65535.0
+  },
+  "llm": {
+    "model": "openai/gpt-oss-20b",
+    "temperature": 0.1,
+    "temperature_retry": 0.2,
+    "max_tokens": 500,
+    "max_attempts": 2,
+    "reasoning_effort": "low"
+  }
+}

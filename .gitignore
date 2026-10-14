@@ -1,0 +1,14 @@
+# Ambienti virtuali
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# File di ambiente con segreti
+.env
+
+# Pycache
+__pycache__/
+*.py[cod]
+*$py.class
