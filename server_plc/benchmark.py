@@ -531,7 +531,6 @@ async def test_bca(client, split="test"):
     valid_responses = 0
     total = 0
     errors = []
-    latencies = []
 
     for i, entry in enumerate(dataset):
         split_type = entry.get("split", "test")
@@ -546,7 +545,6 @@ async def test_bca(client, split="test"):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(5)
             sock.connect((SERVER_HOST, SERVER_PORT))
-            t0 = time.perf_counter()
             sock.sendall(source_bytes)
 
             header = b""
@@ -566,9 +564,6 @@ async def test_bca(client, split="test"):
                         break
                     response += chunk
                     remaining = payload_len + 6 - len(response)
-            t1 = time.perf_counter()
-            if len(response) >= 7:
-                latencies.append((t1 - t0) * 1000)
         except socket.timeout:
             pass
         except Exception as e:
@@ -602,13 +597,6 @@ async def test_bca(client, split="test"):
     print(f"  BCA: {correct}/{total} ({bca:.2f}%)")
     print(f"  RVA: {valid_responses}/{total} ({rva:.2f}%)")
 
-    lat_arr = np.array(latencies) if latencies else np.array([0.0])
-    if len(lat_arr) > 0 and lat_arr.max() > 0:
-        print(f"\n--- Latenza Fast-Path (Dataset N={len(lat_arr)}) ---")
-        print(f"  Media:   {lat_arr.mean():.3f} ms")
-        print(f"  Mediana: {np.median(lat_arr):.3f} ms")
-        print(f"  Min:     {lat_arr.min():.3f} ms | Max: {lat_arr.max():.3f} ms | Std: {lat_arr.std():.3f} ms")
-
     if errors:
         print(f"\n  Primi {len(errors)} errori:")
         for e in errors:
@@ -618,7 +606,7 @@ async def test_bca(client, split="test"):
                 print(f"    [{e['index']}] atteso:  {e['expected']}")
                 print(f"           ricevuto: {e['received']}")
 
-    return {"correct": correct, "valid_rva": valid_responses, "total": total, "bca": bca, "rva": rva, "latencies": latencies}
+    return {"correct": correct, "valid_rva": valid_responses, "total": total, "bca": bca, "rva": rva}
 
 
 # =========================================================================
